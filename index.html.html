@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Interaktif IPS Kelas 7 & 8 - Letak Indonesia & SDA</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #059669;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --error: #dc2626;
+      --warning: #d97706;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px 10px;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: white;
+      padding: 25px 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      opacity: 0.9;
+      font-size: 0.95rem;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 5px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 12px 16px;
+      background: #e2e8f0;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border);
+    }
+
+    .question-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: #0f172a;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 12px 16px;
+      background: #f1f5f9;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      text-align: left;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--text);
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background: #e2e8f0;
+      border-color: #cbd5e1;
+    }
+
+    .option-btn.selected {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+
+    .option-btn.correct {
+      background: #dcfce7 !important;
+      border-color: var(--success) !important;
+      color: #14532d;
+      font-weight: 600;
+    }
+
+    .option-btn.wrong {
+      background: #fee2e2 !important;
+      border-color: var(--error) !important;
+      color: #7f1d1d;
+    }
+
+    .explanation {
+      margin-top: 12px;
+      padding: 12px 16px;
+      background: #f0fdf4;
+      border-left: 4px solid var(--success);
+      border-radius: 4px;
+      font-size: 0.9rem;
+      color: #166534;
+      display: none;
+    }
+
+    .matching-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .matching-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 14px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    @media (min-width: 600px) {
+      .matching-item {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+      }
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: white;
+      font-size: 0.9rem;
+    }
+
+    textarea {
+      width: 100%;
+      height: 90px;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      margin-top: 8px;
+      resize: vertical;
+    }
+
+    .model-answer {
+      margin-top: 10px;
+      padding: 12px;
+      background: #eff6ff;
+      border-radius: 6px;
+      border-left: 4px solid var(--primary);
+      font-size: 0.9rem;
+      color: #1e40af;
+      display: none;
+    }
+
+    .btn-action {
+      background: var(--primary);
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 15px;
+      transition: background 0.2s;
+    }
+
+    .btn-action:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background: #64748b;
+    }
+
+    .btn-secondary:hover {
+      background: #475569;
+    }
+
+    .score-summary {
+      text-align: center;
+      padding: 30px;
+    }
+
+    .score-badge {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 15px 0;
+    }
+
+    .badge-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: #e0e7ff;
+      color: #3730a3;
+      margin-bottom: 8px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Kuis Interaktif IPS Kelas 7 & 8</h1>
+    <p>Materi: Letak Wilayah Indonesia, Pembagian Waktu, dan Sumber Daya Alam</p>
+  </header>
+
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchSection('pg')">Pilihan Ganda (25)</button>
+    <button class="tab-btn" onclick="switchSection('matching')">Menjodohkan (10)</button>
+    <button class="tab-btn" onclick="switchSection('essay')">Uraian (5)</button>
+    <button class="tab-btn" onclick="switchSection('results')">Hasil Akhir</button>
+  </div>
+
+  <!-- SECTION PILIHAN GANDA -->
+  <div id="section-pg">
+    <div id="pg-container"></div>
+    <button class="btn-action" onclick="switchSection('matching')">Lanjut ke Soal Menjodohkan &rarr;</button>
+  </div>
+
+  <!-- SECTION MENJODOHKAN -->
+  <div id="section-matching" class="hidden">
+    <div class="card">
+      <h2>Soal Menjodohkan</h2>
+      <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 15px;">Pasangkanlah pernyataan di sebelah kiri dengan pilihan pasangan yang paling tepat di sebelah kanan.</p>
+      <div id="matching-container" class="matching-grid"></div>
+      <button class="btn-action" style="margin-top:20px;" onclick="checkMatchingAnswers()">Cek Jawaban Menjodohkan</button>
+    </div>
+    <button class="btn-action btn-secondary" onclick="switchSection('essay')">Lanjut ke Soal Uraian &rarr;</button>
+  </div>
+
+  <!-- SECTION URAIAN -->
+  <div id="section-essay" class="hidden">
+    <div class="card">
+      <h2>Soal Uraian</h2>
+      <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 15px;">Tuliskan jawaban kamu pada kolom yang disediakan, lalu klik "Lihat Kunci Jawaban" untuk mengoreksi diri secara mandiri.</p>
+      <div id="essay-container"></div>
+    </div>
+    <button class="btn-action" onclick="finishQuiz()">Selesaikan & Lihat Rekapitulasi Nilai &rarr;</button>
+  </div>
+
+  <!-- SECTION HASIL AKHIR -->
+  <div id="section-results" class="hidden">
+    <div class="card score-summary">
+      <span class="badge-tag">Hasil Evaluasi Belajar</span>
+      <h2>Skor Pilihan Ganda Kamu</h2>
+      <div class="score-badge" id="final-score">0 / 25</div>
+      <p id="score-message" style="margin-bottom: 20px; font-weight: 500;"></p>
+      <button class="btn-action" onclick="resetQuiz()">Ulangi Kuis Hari Ini</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // SOAL PILIHAN GANDA (25 SOAL)
+  const pgData = [
+    {
+      q: "1. Letak suatu wilayah berdasarkan garis lintang dan garis bujur dinamakan...",
+      options: ["Letak Geografis", "Letak Astronomis", "Letak Geologis", "Letak Ekonomis"],
+      answer: 1,
+      explanation: "Letak astronomis adalah posisi suatu tempat berdasarkan garis khayal bumi yaitu garis lintang dan garis bujur."
+    },
+    {
+      q: "2. Secara astronomis, wilayah Indonesia terletak pada koordinat...",
+      options: [
+        "6° LU - 11° LS dan 95° BT - 141° BT",
+        "6° LS - 11° LU dan 95° BT - 141° BT",
+        "6° LU - 11° LS dan 95° BB - 141° BB",
+        "11° LU - 6° LS dan 95° BT - 141° BT"
+      ],
+      answer: 0,
+      explanation: "Wilayah Indonesia berada di antara 6° Lintang Utara sampai 11° Lintang Selatan dan 95° Bujur Timur sampai 141° Bujur Timur."
+    },
+    {
+      q: "3. Pengaruh utama dari letak astronomis Indonesia terhadap kondisi iklim adalah...",
+      options: [
+        "Memiliki 4 musim yang bergantian cepat",
+        "Beriklim tropis dengan curah hujan dan kelembapan tinggi",
+        "Sering mengalami musim dingin ekstrim",
+        "Memiliki wilayah iklim sub-tropis kering"
+      ],
+      answer: 1,
+      explanation: "Karena dilalui garis khatulistiwa (lintang rendah), Indonesia beriklim tropis dengan sinar matahari sepanjang tahun."
+    },
+    {
+      q: "4. Faktor utama yang menyebabkan pembagian 3 zona waktu di Indonesia adalah...",
+      options: [
+        "Bentangan garis bujur wilayah Indonesia sepanjang 46°",
+        "Perbedaan tinggi rendah permukaan daratan",
+        "Jumlah pulau besar dan kecil",
+        "Letak geografis di antara dua benua"
+      ],
+      answer: 0,
+      explanation: "Setiap selisih 15° garis bujur setara dengan perbedaan waktu 1 jam. Bentangan bujur Indonesia 141° - 95° = 46° (membagi Indonesia jadi 3 zona waktu)."
+    },
+    {
+      q: "5. Jika di Jakarta (WIB) menunjukkan pukul 09.00 WIB, maka pada saat yang sama di Bali (WITA) menunjukkan pukul...",
+      options: ["08.00 WITA", "09.00 WITA", "10.00 WITA", "11.00 WITA"],
+      answer: 2,
+      explanation: "WITA lebih cepat 1 jam dibandingkan WIB (WITA = WIB + 1 jam). Jadi 09.00 + 1 jam = 10.00 WITA."
+    },
+    {
+      q: "6. Jika di Makassar (WITA) pukul 14.00 WITA, pukul berapakah di Jayapura (WIT)?",
+      options: ["13.00 WIT", "14.00 WIT", "15.00 WIT", "16.00 WIT"],
+      answer: 2,
+      explanation: "WIT lebih cepat 1 jam dari WITA. Jadi 14.00 + 1 jam = 15.00 WIT."
+    },
+    {
+      q: "7. Secara geografis, wilayah Indonesia diapit oleh dua samudra besar, yaitu...",
+      options: [
+        "Samudra Pasifik dan Samudra Atlantik",
+        "Samudra Hindia dan Samudra Pasifik",
+        "Samudra Hindia dan Samudra Arktik",
+        "Samudra Pasifik dan Samudra Antartika"
+      ],
+      answer: 1,
+      explanation: "Indonesia terletak di antara Samudra Hindia (selatan-barat) dan Samudra Pasifik (utara-timur)."
+    },
+    {
+      q: "8. Posisi silang geografis Indonesia memberikan dampak positif dalam bidang ekonomi, yaitu...",
+      options: [
+        "Menjadi jalur lalu lintas perdagangan internasional yang strategis",
+        "Bebas dari risiko bencana gempa bumi",
+        "Memiliki empat musim pertanian",
+        "Mengurangi biaya konsumsi energi nasional"
+      ],
+      answer: 0,
+      explanation: "Posisi silang di antara dua benua dan dua samudra menjadikan laut Indonesia sebagai jalur transit perdagangan dunia."
+    },
+    {
+      q: "9. Letak geologis Indonesia ditandai oleh pertemuan 3 lempeng tektonik utama, yaitu...",
+      options: [
+        "Lempeng Pasifik, Afrika, dan Amerika",
+        "Lempeng Indo-Australia, Eurasia, dan Pasifik",
+        "Lempeng Eurasia, Filipina, dan Antartika",
+        "Lempeng Indo-Australia, Nazca, dan Pasifik"
+      ],
+      answer: 1,
+      explanation: "Indonesia merupakan titik temu 3 lempeng aktif utama dunia: Indo-Australia, Eurasia, dan Pasifik."
+    },
+    {
+      q: "10. Akibat positif dan negatif dari letak geologis Indonesia adalah...",
+      options: [
+        "Sering gempa & gunung api aktif, namun tanahnya sangat subur",
+        "Beriklim dingin dan sering badai salju",
+        "Terhindar dari bencana alam tektonik",
+        "Sumber daya air sangat sedikit"
+      ],
+      answer: 0,
+      explanation: "Aktivitas vulkanik menghasilkan tanah vulkanis yang subur, meskipun risiko gempa dan erupsi gunung api tinggi."
+    },
+    {
+      q: "11. Pengertian cuaca yang benar di bawah ini adalah...",
+      options: [
+        "Keadaan udara pada daerah sempit dan dalam waktu relatif singkat",
+        "Rata-rata keadaan udara pada daerah luas dalam waktu sangat lama",
+        "Perubahan suhu global dalam hitungan dekade",
+        "Kondisi pergerakan lempeng dalam periode tahunan"
+      ],
+      answer: 0,
+      explanation: "Cuaca sifatnya singkat dan wilayahnya sempit. Sedangkan iklim mencakup wilayah luas dan periode waktu lama (30 tahun)."
+    },
+    {
+      q: "12. Perbedaan utama antara iklim dan cuaca terletak pada aspek...",
+      options: [
+        "Alat ukur dan jenis suhunya",
+        "Cakupan luas wilayah dan jangka waktunya",
+        "Kandungan gas di atmosfer",
+        "Kedalaman lautan disekitarnya"
+      ],
+      answer: 1,
+      explanation: "Cuaca = daerah sempit & waktu singkat. Iklim = daerah luas & waktu lama."
+    },
+    {
+      q: "13. Alat yang digunakan untuk mengukur curah hujan dinamakan...",
+      options: ["Barometer", "Hygrometer", "Ombrometer", "Anemometer"],
+      answer: 2,
+      explanation: "Ombrometer = pengukur curah hujan, Barometer = tekanan udara, Hygrometer = kelembapan, Anemometer = kecepatan angin."
+    },
+    {
+      q: "14. Pengertian Sumber Daya Alam yang tidak dapat diperbarui (non-renewable) adalah...",
+      options: [
+        "SDA yang terus melimpah dan tidak bisa habis",
+        "SDA yang jumlahnya terbatas dan membutuhkan waktu jutaan tahun untuk terbentuk kembali",
+        "SDA yang dapat dipulihkan melalui pembudidayaan cepat",
+        "SDA yang berasal dari mahluk hidup fotosintesis"
+      ],
+      answer: 1,
+      explanation: "SDA non-renewable terbentuk dari proses geologi jutaan tahun, sehingga jika habis tidak mudah digantikan."
+    },
+    {
+      q: "15. Kelompok sumber daya alam di bawah ini yang tergolong dapat diperbarui adalah...",
+      options: [
+        "Minyak bumi, batu bara, emas",
+        "Air, tanah, hutan, dan hewan",
+        "Gas alam, bauksit, besi",
+        "Tembaga, perak, batu bara"
+      ],
+      answer: 1,
+      explanation: "Air, tanah, hutan, dan hewan dapat pulih kembali melalui siklus alami atau usaha pembudidayaan."
+    },
+    {
+      q: "16. Hutan yang terdiri atas bermacam-macam jenis tumbuhan dinamakan...",
+      options: ["Hutan homogen", "Hutan heterogen", "Hutan suaka", "Hutan produksi tunggal"],
+      answer: 1,
+      explanation: "Hutan heterogen memiliki anekaragam spesies pohon (seperti hutan hujan tropis)."
+    },
+    {
+      q: "17. Salah satu fungsi ekologis dari hutan mangrove bagi wilayah pesisir adalah...",
+      options: [
+        "Mencegah abrasi pantai dan tempat pembiakan biota laut",
+        "Sebagai lahan pertambangan batu bara utama",
+        "Menghasilkan kayu jati berkualitas super",
+        "Meningkatkan erosi daratan pantai"
+      ],
+      answer: 0,
+      explanation: "Akar mangrove menahan gelombang laut sehingga mencegah abrasi serta menjadi tempat pemijahan ikan & kepiting."
+    },
+    {
+      q: "18. Fungsi hidrologis dari hutan adalah...",
+      options: [
+        "Menyimpan dan mengatur persediaan air tanah",
+        "Mencegah abrasi gelombang air laut",
+        "Menghasilkan bahan tambang mineral",
+        "Mengatur rotasi bumi"
+      ],
+      answer: 0,
+      explanation: "Fungsi hidrologis berkaitan dengan air: menyerap air hujan dan menjaganya sebagai cadangan air tanah."
+    },
+    {
+      q: "19. Tahapan kegiatan pertambangan yang bertujuan mencari dan menemukan keberadaan endapan bahan galian dinamakan...",
+      options: ["Prospeksi", "Eksplorasi", "Eksploitasi", "Pengolahan"],
+      answer: 0,
+      explanation: "Prospeksi = tahap awal pencarian indikasi lokasi tambang."
+    },
+    {
+      q: "20. Tahapan pertambangan berupa kegiatan penambangan dan pengambilan bahan galian dari bumi adalah...",
+      options: ["Prospeksi", "Eksplorasi", "Eksploitasi", "Pemurnian"],
+      answer: 2,
+      explanation: "Eksploitasi = proses pengerukan/penambangan bahan galian secara nyata."
+    },
+    {
+      q: "21. Urutan tahapan kegiatan pertambangan yang runtut dan benar adalah...",
+      options: [
+        "Prospeksi → Eksplorasi → Eksploitasi → Pengolahan",
+        "Eksplorasi → Prospeksi → Pengolahan → Eksploitasi",
+        "Eksploitasi → Prospeksi → Eksplorasi → Pengolahan",
+        "Pengolahan → Eksploitasi → Eksplorasi → Prospeksi"
+      ],
+      answer: 0,
+      explanation: "Urutan tambang: 1. Prospeksi (Cari) → 2. Eksplorasi (Ukur potensi) → 3. Eksploitasi (Tambang) → 4. Pengolahan (Murnikan)."
+    },
+    {
+      q: "22. Bahan tambang batu bara banyak dimanfaatkan manusia sebagai...",
+      options: [
+        "Bahan bakar utama Pembangkang Listrik Tenaga Uap (PLTU)",
+        "Bahan baku perhiasan lapis emas",
+        "Bahan pembuat alumunium ringan",
+        "Pupuk kimia organik"
+      ],
+      answer: 0,
+      explanation: "Batu bara dibakar untuk menghasilkan uap pemutar turbin PLTU."
+    },
+    {
+      q: "23. Hutan yang difungsikan khusus untuk melindungi sistem penyangga kehidupan dan mengatur tata air adalah...",
+      options: ["Hutan produksi", "Hutan lindung", "Hutan suaka margasatwa", "Hutan wisata"],
+      answer: 1,
+      explanation: "Hutan lindung bertugas menjaga kelestarian tata air, mencegah banjir & erosi."
+    },
+    {
+      q: "24. Garis khayal utara-selatan yang menghubungkan Kutub Utara dan Kutub Selatan dinamakan...",
+      options: ["Garis Lintang", "Garis Bujur", "Garis Khatulistiwa", "Garis Isobar"],
+      answer: 1,
+      explanation: "Garis bujur (meridian) membentang dari Kutub Utara ke Kutub Selatan."
+    },
+    {
+      q: "25. Angin muson barat yang bertiup dari Benua Asia menuju Benua Australia melewati Indonesia menyebabkan...",
+      options: [
+        "Terjadinya musim hujan di Indonesia",
+        "Terjadinya musim kemarau panjang",
+        "Bencana badai salju di dataran rendah",
+        "Penurunan volume air laut secara drastis"
+      ],
+      answer: 0,
+      explanation: "Angin muson barat membawa uap air melimpah dari Samudra Pasifik/Asia sehingga memicu musim hujan."
+    }
+  ];
+
+  // SOAL MENJODOHKAN (10 SOAL)
+  const matchingData = [
+    { q: "Garis Lintang 0°", match: "Garis Khatulistiwa (Ekuator)" },
+    { q: "Garis Bujur 0°", match: "Kota Greenwich (Inggris)" },
+    { q: "WIB (Waktu Indonesia Barat)", match: "Patokan Garis Bujur 105° BT" },
+    { q: "WITA (Waktu Indonesia Tengah)", match: "Patokan Garis Bujur 120° BT" },
+    { q: "Eksplorasi Tambang", match: "Kegiatan mengukur jumlah & kualitas endapan" },
+    { q: "Pengolahan Bahan Tambang", match: "Memisahkan mineral berharga dari batuan pengotor" },
+    { q: "Bauksit", match: "Bahan baku pembuatan aluminium" },
+    { q: "Hutan Homogen", match: "Hutan Jati / Hutan Pinus" },
+    { q: "Sinar Matahari & Air", match: "Sumber Daya Alam yang dapat diperbarui" },
+    { q: "Fungsi Orologis Hutan", match: "Mencegah erosi & tanah longsor" }
+  ];
+
+  // SOAL URAIAN (5 SOAL)
+  const essayData = [
+    {
+      q: "1. Jelaskan perbedaan antara letak astronomis, letak geografis, dan letak geologis wilayah Indonesia!",
+      modelAnswer: "<b>Jawaban Ideal:</b><br>- <b>Letak Astronomis:</b> Letak berdasarkan garis khayal lintang dan bujur (Indonesia: 6°LU-11°LS & 95°BT-141°BT).<br>- <b>Letak Geografis:</b> Letak berdasarkan posisi nyata di bumi (di antara Benua Asia-Australia & Samudra Hindia-Pasifik).<br>- <b>Letak Geologis:</b> Letak berdasarkan struktur batuan/lempeng bumi (pertemuan lempeng Indo-Australia, Eurasia, dan Pasifik)."
+    },
+    {
+      q: "2. Sebutkan pembagian 3 zona waktu di Indonesia beserta 2 contoh wilayah provinsinya masing-masing!",
+      modelAnswer: "<b>Jawaban Ideal:</b><br>1. <b>WIB:</b> DKI Jakarta, Jawa Barat, Sumatra Utara.<br>2. <b>WITA:</b> Bali, Nusa Tenggara Barat, Sulawesi Selatan.<br>3. <b>WIT:</b> Papua, Maluku, Papua Barat."
+    },
+    {
+      q: "3. Sebutkan dan jelaskan secara urut 4 tahapan dalam kegiatan pertambangan!",
+      modelAnswer: "<b>Jawaban Ideal:</b><br>1. <b>Prospeksi:</b> Pencarian awal untuk menemukan keterdapatan bahan galian.<br>2. <b>Eksplorasi:</b> Pemetaan untuk mengetahui ukuran, bentuk, dan kualitas cadangan tambang.<br>3. <b>Eksploitasi:</b> Penambangan/pengerukan bahan galian.<br>4. <b>Pengolahan:</b> Pemurnian bahan tambang dari batuan pengotor."
+    },
+    {
+      q: "4. Jelaskan 3 fungsi utama hutan bagi kehidupan manusia dan lingkungan!",
+      modelAnswer: "<b>Jawaban Ideal:</b><br>1. <b>Fungsi Hidrologis:</b> Menyimpan dan mengatur tata air tanah.<br>2. <b>Fungsi Klimatis:</b> Menjaga suhu bumi dan menghasilkan oksigen.<br>3. <b>Fungsi Orologis:</b> Mencegah erosi dan tanah longsor."
+    },
+    {
+      q: "5. Mengapa hutan mangrove sangat penting bagi keberlangsungan wilayah pesisir? Tuliskan 3 alasannya!",
+      modelAnswer: "<b>Jawaban Ideal:</b><br>1. Mencegah abrasi dan erosi pantai akibat hantaman ombak.<br>2. Menjadi tempat hidup dan memijah (berkembang biak) ikan, udang, dan kepiting.<br>3. Menyaring intrusi air laut ke dalam daratan."
+    }
+  ];
+
+  let userPgAnswers = new Array(pgData.length).fill(null);
+
+  // Render PG
+  function renderPG() {
+    const container = document.getElementById("pg-container");
+    container.innerHTML = "";
+
+    pgData.forEach((item, index) => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      let optionsHTML = "";
+      item.options.forEach((opt, optIndex) => {
+        optionsHTML += `
+          <button class="option-btn" id="pg-opt-${index}-${optIndex}" onclick="selectPG(${index}, ${optIndex})">
+            ${String.fromCharCode(65 + optIndex)}. ${opt}
+          </button>
+        `;
+      });
+
+      card.innerHTML = `
+        <div class="question-title">${item.q}</div>
+        <div class="options">${optionsHTML}</div>
+        <div class="explanation" id="pg-exp-${index}">
+          <strong>Pembahasan:</strong> ${item.explanation}
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function selectPG(qIdx, optIdx) {
+    if (userPgAnswers[qIdx] !== null) return; // Prevent changing after selection
+
+    userPgAnswers[qIdx] = optIdx;
+    const correctIdx = pgData[qIdx].answer;
+
+    // Highlight options
+    pgData[qIdx].options.forEach((_, idx) => {
+      const btn = document.getElementById(`pg-opt-${qIdx}-${idx}`);
+      btn.disabled = true;
+      if (idx === correctIdx) {
+        btn.classList.add("correct");
+      }
+      if (idx === optIdx && optIdx !== correctIdx) {
+        btn.classList.add("wrong");
+      }
+    });
+
+    // Show explanation
+    const exp = document.getElementById(`pg-exp-${qIdx}`);
+    exp.style.display = "block";
+  }
+
+  // Render Matching
+  function renderMatching() {
+    const container = document.getElementById("matching-container");
+    container.innerHTML = "";
+
+    // Shuffle options for matching dropdown
+    const allMatches = matchingData.map(m => m.match).sort(() => Math.random() - 0.5);
+
+    matchingData.forEach((item, idx) => {
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "matching-item";
+
+      let selectOptions = `<option value="">-- Pilih Pasangan --</option>`;
+      allMatches.forEach(m => {
+        selectOptions += `<option value="${m}">${m}</option>`;
+      });
+
+      itemDiv.innerHTML = `
+        <div><strong>${idx + 1}. ${item.q}</strong></div>
+        <div>
+          <select id="match-select-${idx}">
+            ${selectOptions}
+          </select>
+          <div id="match-feedback-${idx}" style="font-size: 0.85rem; margin-top:4px;"></div>
+        </div>
+      `;
+      container.appendChild(itemDiv);
+    });
+  }
+
+  function checkMatchingAnswers() {
+    matchingData.forEach((item, idx) => {
+      const sel = document.getElementById(`match-select-${idx}`);
+      const feedback = document.getElementById(`match-feedback-${idx}`);
+      
+      if (sel.value === item.match) {
+        sel.style.borderColor = "var(--success)";
+        sel.style.backgroundColor = "#dcfce7";
+        feedback.style.color = "var(--success)";
+        feedback.innerText = "✓ Benar";
+      } else {
+        sel.style.borderColor = "var(--error)";
+        sel.style.backgroundColor = "#fee2e2";
+        feedback.style.color = "var(--error)";
+        feedback.innerText = `✗ Salah (Jawaban: ${item.match})`;
+      }
+    });
+  }
+
+  // Render Essay
+  function renderEssay() {
+    const container = document.getElementById("essay-container");
+    container.innerHTML = "";
+
+    essayData.forEach((item, idx) => {
+      const div = document.createElement("div");
+      div.style.marginBottom = "20px";
+      div.innerHTML = `
+        <div class="question-title">${item.q}</div>
+        <textarea placeholder="Ketikkan jawaban kamu di sini..."></textarea>
+        <button class="btn-action btn-secondary" style="margin-top:8px; padding: 8px 16px; font-size:0.9rem;" onclick="toggleAnswer(${idx})">Lihat Kunci Jawaban</button>
+        <div class="model-answer" id="essay-ans-${idx}">${item.modelAnswer}</div>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function toggleAnswer(idx) {
+    const ans = document.getElementById(`essay-ans-${idx}`);
+    ans.style.display = ans.style.display === "block" ? "none" : "block";
+  }
+
+  // Navigation Logic
+  function switchSection(secId) {
+    document.getElementById("section-pg").classList.add("hidden");
+    document.getElementById("section-matching").classList.add("hidden");
+    document.getElementById("section-essay").classList.add("hidden");
+    document.getElementById("section-results").classList.add("hidden");
+
+    document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+
+    document.getElementById(`section-${secId}`).classList.remove("hidden");
+
+    // Highlight tab
+    const tabs = document.querySelectorAll(".tab-btn");
+    if (secId === 'pg') tabs[0].classList.add("active");
+    if (secId === 'matching') tabs[1].classList.add("active");
+    if (secId === 'essay') tabs[2].classList.add("active");
+    if (secId === 'results') tabs[3].classList.add("active");
+
+    if (secId === 'results') {
+      calculateResults();
+    }
+  }
+
+  function calculateResults() {
+    let score = 0;
+    userPgAnswers.forEach((ans, idx) => {
+      if (ans === pgData[idx].answer) score++;
+    });
+
+    document.getElementById("final-score").innerText = `${score} / ${pgData.length}`;
+    
+    const msg = document.getElementById("score-message");
+    if (score >= 20) {
+      msg.innerText = "Luar biasa! Pemahaman kamu sangat matang. Siap menghadapi ulangan! 🎉";
+      msg.style.color = "var(--success)";
+    } else if (score >= 14) {
+      msg.innerText = "Bagus! Kamu sudah memahami sebagian besar materi. Pelajari lagi poin yang salah ya! 👍";
+      msg.style.color = "var(--warning)";
+    } else {
+      msg.innerText = "Tetap semangat! Pelajari kembali pembahasan dan materi di atas sebelum ujian! 💪";
+      msg.style.color = "var(--error)";
+    }
+  }
+
+  function finishQuiz() {
+    switchSection('results');
+  }
+
+  function resetQuiz() {
+    userPgAnswers = new Array(pgData.length).fill(null);
+    renderPG();
+    renderMatching();
+    renderEssay();
+    switchSection('pg');
+  }
+
+  // Init
+  renderPG();
+  renderMatching();
+  renderEssay();
+</script>
+</body>
+</html>
