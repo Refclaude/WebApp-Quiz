@@ -178,6 +178,7 @@
     <h1>Ujian Sumatif Tengah Semester</h1>
   </header>
 
+  <!-- HALAMAN LOGIN -->
   <div id="login-screen" class="card">
     <h2 style="text-align: center; margin-bottom: 20px;">Portal Masuk</h2>
     
@@ -195,12 +196,14 @@
       <div class="role-tab" id="tab-role-admin" onclick="switchLoginRole('admin')">Admin / Owner</div>
     </div>
 
+    <!-- Form Login Siswa -->
     <div id="form-student">
       <label for="username" style="font-weight: bold;">Nama Lengkap Siswa:</label>
       <input type="text" id="username" placeholder="Contoh: Budi Santoso" autocomplete="off">
       <button class="btn" onclick="loginStudent()">Mulai Ujian</button>
     </div>
 
+    <!-- Form Login Admin/Owner -->
     <div id="form-admin" class="hidden">
       <label style="font-weight: bold;">Username:</label>
       <input type="text" id="auth-user" placeholder="Username akun..." autocomplete="off">
@@ -210,27 +213,37 @@
     </div>
   </div>
 
+  <!-- HALAMAN DASHBOARD SISWA -->
   <div id="dashboard-screen" class="hidden">
     <div class="card">
       <h2 style="margin-bottom: 10px;">Halo, <span id="display-name" style="color: var(--primary);"></span>!</h2>
       <p style="color: var(--text-muted); margin-bottom: 20px;">Pilih mata pelajaran yang ingin kamu kerjakan berdasarkan kisi-kisi Kelas 8.</p>
+      
       <div id="quiz-list"></div>
+      
       <button class="btn btn-outline" style="margin-top: 25px;" onclick="logout()">Keluar / Ganti Akun</button>
     </div>
   </div>
 
+  <!-- HALAMAN DASHBOARD ADMIN -->
   <div id="admin-screen" class="hidden">
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
         <h2>Dashboard Admin (<span id="admin-name-label"></span>)</h2>
         <button class="btn btn-outline btn-small" onclick="logout()">Keluar</button>
       </div>
-      <p style="color: var(--text-muted); margin-bottom: 20px;">Pantau nilai siswa. Untuk menghapus nilai atau data siswa, Anda harus mengajukan permohonan (request) kepada Owner.</p>
+      <p style="color: var(--text-muted); margin-bottom: 20px;">Pantau nilai siswa secara real-time. Untuk menghapus nilai, ajukan permohonan ke Owner.</p>
+      
       <h3>Rekapitulasi Nilai Siswa</h3>
       <div style="overflow-x: auto;">
         <table id="admin-scores-table">
           <thead>
-            <tr><th>Nama Siswa</th><th>Mata Pelajaran</th><th>Skor (PG + Match)</th><th>Aksi</th></tr>
+            <tr>
+              <th>Nama Siswa</th>
+              <th>Mata Pelajaran</th>
+              <th>Skor (PG + Match)</th>
+              <th>Aksi</th>
+            </tr>
           </thead>
           <tbody></tbody>
         </table>
@@ -238,12 +251,15 @@
     </div>
   </div>
 
+  <!-- HALAMAN DASHBOARD OWNER -->
   <div id="owner-screen" class="hidden">
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
         <h2>Dashboard Owner 👑 (Full Akses)</h2>
         <button class="btn btn-outline btn-small" onclick="logout()">Keluar</button>
       </div>
+      
+      <!-- Kelola Admin -->
       <h3 style="margin-top: 15px;">Kelola Akun Admin</h3>
       <div style="display: flex; gap: 10px; margin-top: 10px;">
         <input type="text" id="new-admin-user" placeholder="Username Admin baru..." style="margin:0;">
@@ -252,35 +268,49 @@
       </div>
       <div style="overflow-x: auto; margin-top: 15px;">
         <table id="owner-admin-table">
-          <thead><tr><th>Username Admin</th><th>Aksi</th></tr></thead>
+          <thead>
+            <tr><th>Username Admin</th><th>Aksi</th></tr>
+          </thead>
           <tbody></tbody>
         </table>
       </div>
+
+      <!-- Kotak Masuk Permintaan (Request Inbox) -->
       <h3 style="margin-top: 30px;">Permintaan Hapus dari Admin (<span id="request-count">0</span>)</h3>
       <div style="overflow-x: auto; margin-top: 10px;">
         <table id="owner-requests-table">
-          <thead><tr><th>Pemohon (Admin)</th><th>Jenis Permintaan</th><th>Target Data</th><th>Status / Aksi</th></tr></thead>
+          <thead>
+            <tr><th>Pemohon (Admin)</th><th>Jenis Permintaan</th><th>Target Data</th><th>Status / Aksi</th></tr>
+          </thead>
           <tbody></tbody>
         </table>
       </div>
+
+      <!-- Kelola Nilai Seluruh Siswa -->
       <h3 style="margin-top: 30px;">Data Nilai Seluruh Siswa</h3>
       <div style="overflow-x: auto; margin-top: 10px;">
         <table id="owner-scores-table">
-          <thead><tr><th>Nama Siswa</th><th>Mata Pelajaran</th><th>Skor</th><th>Hapus Langsung</th></tr></thead>
+          <thead>
+            <tr><th>Nama Siswa</th><th>Mata Pelajaran</th><th>Skor</th><th>Hapus Langsung</th></tr>
+          </thead>
           <tbody></tbody>
         </table>
       </div>
     </div>
   </div>
 
+  <!-- HALAMAN KUIS BERLANGSUNG -->
   <div id="quiz-screen" class="hidden">
     <h2 id="quiz-title" style="margin-bottom: 20px; color: var(--primary);">Judul Kuis</h2>
+    
     <div class="nav-tabs">
       <button class="tab-btn active" id="tab-pg" onclick="switchQuizTab('pg')">Pilihan Ganda (25)</button>
       <button class="tab-btn" id="tab-matching" onclick="switchQuizTab('matching')">Menjodohkan (10)</button>
       <button class="tab-btn" id="tab-essay" onclick="switchQuizTab('essay')">Uraian (5)</button>
     </div>
+
     <div id="sec-pg"></div>
+
     <div id="sec-matching" class="hidden">
       <div class="card">
         <h3 style="margin-bottom: 10px;">Soal Menjodohkan</h3>
@@ -288,6 +318,7 @@
         <div id="matching-container"></div>
       </div>
     </div>
+
     <div id="sec-essay" class="hidden">
       <div class="card">
         <h3 style="margin-bottom: 10px;">Soal Uraian</h3>
@@ -295,6 +326,7 @@
         <div id="essay-container"></div>
       </div>
     </div>
+
     <div style="display: flex; gap: 10px; margin-top: 20px;">
       <button class="btn btn-outline" id="btn-prev" onclick="prevTab()">&larr; Kembali</button>
       <button class="btn" id="btn-next" onclick="nextTab()">Lanjut &rarr;</button>
@@ -302,18 +334,22 @@
     </div>
   </div>
 
+  <!-- HALAMAN HASIL AKHIR -->
   <div id="result-screen" class="hidden">
     <div class="card" style="text-align: center; padding: 40px 20px;">
       <h2 style="margin-bottom: 15px; font-size: 2rem;">Kuis Selesai! 🎉</h2>
       <p style="color: var(--text-muted); margin-bottom: 20px;">Berikut adalah nilai otomatis dari soal Pilihan Ganda dan Menjodohkan.</p>
+      
       <div style="font-size: 5rem; font-weight: bold; color: var(--primary); margin-bottom: 10px;" id="final-score">0/35</div>
       <p style="margin-bottom: 30px; font-size: 1.1rem;">
         Skor Pilihan Ganda: <strong id="score-pg">0</strong>/25 <br>
         Skor Menjodohkan: <strong id="score-match">0</strong>/10
       </p>
+
       <button class="btn" onclick="backToDashboard()">Kembali ke Daftar Kuis</button>
     </div>
   </div>
+
 </div>
 
 <footer>
@@ -321,10 +357,6 @@
 </footer>
 
 <script>
-  // ==========================================
-  // DI BAWAH INI ADALAH TEMPAT VARIABEL SOAL ANDA
-  // ==========================================
-
 /* =========================================================================
      DATA KUIS LENGKAP (UTUH TANPA GENERATE / POTONGAN)
      ========================================================================= */
@@ -879,42 +911,59 @@
         { q: "5. Sebutkan 3 contoh olahan bahan pangan setengah jadi dari hasil serealia atau umbi-umbian!", key: "1. Tepung tapioka (dari singkong). 2. Keripik/Pengkeran kentang kering. 3. Tepung maizena (dari jagung) / Tepung beras." }
       ]
     }
-  ];
+   ]; // Batas akhir penutup const quizzes
 
-    // ==========================================
-  // BATAS AKHIR VARIABEL SOAL
-  // ==========================================
+  /* =========================================================================
+     SISTEM DATABASE ONLINE & LOGIKA APLIKASI
+     ========================================================================= */
+  const API_BIN_ID = "6ab28c9effd5d16053233ea0"; // Masukkan Bin ID JSONBin Anda di sini
+  const API_KEY = "$2a$10$dwiVwJ6E7htHxak5VZyuSuvxo1i81xcEQKCVBwIIldGiKdzgsuRre"; // Masukkan Master Key Anda di sini
 
   let currentUser = '';
   let currentRole = 'student';
-  let userScores = {}; 
-  let adminAccounts = [];
-  let deletionRequests = [];
-  let activeQuizId = null;
-  let currentAnswersPG = [];
-  let currentAnswersMatch = [];
-  let currentTab = 'pg';
+  let globalData = {
+    scores: {},
+    admins: [{ username: 'admin1', password: '123' }],
+    requests: []
+  };
 
-  window.onload = () => {
+  async function fetchCloudData() {
+    try {
+      let res = await fetch(`https://api.jsonbin.io/v3/b/${API_BIN_ID}/latest`, {
+        headers: { 'X-Master-Key': API_KEY }
+      });
+      if (res.ok) {
+        let json = await res.json();
+        if (json.record) globalData = json.record;
+      }
+    } catch (e) {
+      console.log("Menggunakan mode offline/lokal sementara.");
+    }
+  }
+
+  async function saveCloudData() {
+    try {
+      await fetch(`https://api.jsonbin.io/v3/b/${API_BIN_ID}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': API_KEY
+        },
+        body: JSON.stringify(globalData)
+      });
+    } catch (e) {
+      console.log("Gagal menyimpan ke cloud.");
+    }
+  }
+
+  window.onload = async () => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
       document.body.classList.add('dark-mode');
       document.getElementById('theme-switch').checked = true;
     }
 
-    const savedDB = localStorage.getItem('UjianSumatifDB');
-    if (savedDB) userScores = JSON.parse(savedDB);
-
-    const savedAdmins = localStorage.getItem('UjianSumatifAdmins');
-    if (savedAdmins) {
-      adminAccounts = JSON.parse(savedAdmins);
-    } else {
-      adminAccounts = [{ username: 'admin1', password: '123' }];
-      localStorage.setItem('UjianSumatifAdmins', JSON.stringify(adminAccounts));
-    }
-
-    const savedReqs = localStorage.getItem('UjianSumatifRequests');
-    if (savedReqs) deletionRequests = JSON.parse(savedReqs);
+    await fetchCloudData();
 
     const sessionUser = sessionStorage.getItem('currentUser');
     const sessionRole = sessionStorage.getItem('currentRole');
@@ -954,7 +1003,7 @@
     }
   }
 
-  function loginStudent() {
+  async function loginStudent() {
     let nameInput = document.getElementById('username').value.trim();
     if (!nameInput) { alert("Harap masukkan nama Anda!"); return; }
     
@@ -963,7 +1012,8 @@
     sessionStorage.setItem('currentUser', nameInput);
     sessionStorage.setItem('currentRole', 'student');
     
-    if (!userScores[currentUser]) userScores[currentUser] = {};
+    await fetchCloudData();
+    if (!globalData.scores[currentUser]) globalData.scores[currentUser] = {};
 
     document.getElementById('display-name').innerText = nameInput;
     document.getElementById('login-screen').classList.add('hidden');
@@ -971,18 +1021,20 @@
     renderDashboard();
   }
 
-  function loginStaff() {
+  async function loginStaff() {
     let u = document.getElementById('auth-user').value.trim();
     let p = document.getElementById('auth-pass').value.trim();
 
     if (!u || !p) { alert("Harap isi username dan password!"); return; }
+
+    await fetchCloudData();
 
     if (u === 'owner' && p === 'owner123') {
       setupStaffSession('Owner Master', 'owner');
       return;
     }
 
-    let foundAdmin = adminAccounts.find(acc => acc.username === u && acc.password === p);
+    let foundAdmin = globalData.admins.find(acc => acc.username === u && acc.password === p);
     if (foundAdmin) {
       setupStaffSession(foundAdmin.username, 'admin');
       return;
@@ -1037,12 +1089,13 @@
     switchLoginRole('student');
   }
 
-  function renderDashboard() {
+  async function renderDashboard() {
+    await fetchCloudData();
     const list = document.getElementById('quiz-list');
     list.innerHTML = '';
 
     quizzes.forEach(quiz => {
-      const record = userScores[currentUser] ? userScores[currentUser][quiz.id] : undefined;
+      const record = globalData.scores[currentUser] ? globalData.scores[currentUser][quiz.id] : undefined;
       const isDone = record !== undefined;
       
       const item = document.createElement('div');
@@ -1065,15 +1118,16 @@
     });
   }
 
-  function renderAdminDashboard() {
+  async function renderAdminDashboard() {
+    await fetchCloudData();
     const tbody = document.querySelector('#admin-scores-table tbody');
     tbody.innerHTML = '';
 
     let hasData = false;
-    for (let student in userScores) {
-      for (let qId in userScores[student]) {
+    for (let student in globalData.scores) {
+      for (let qId in globalData.scores[student]) {
         hasData = true;
-        let scoreObj = userScores[student][qId];
+        let scoreObj = globalData.scores[student][qId];
         let quizTitle = quizzes.find(q => q.id === qId)?.title || qId;
 
         let tr = document.createElement('tr');
@@ -1093,7 +1147,7 @@
     }
   }
 
-  function requestDeleteScore(student, qId) {
+  async function requestDeleteScore(student, qId) {
     let reason = prompt(`Ajukan permohonan hapus nilai ${student} (${qId}) ke Owner. Masukkan alasan:`);
     if (!reason) return;
 
@@ -1107,15 +1161,17 @@
       status: 'Pending'
     };
 
-    deletionRequests.push(newReq);
-    localStorage.setItem('UjianSumatifRequests', JSON.stringify(deletionRequests));
-    alert("Permohonan berhasil dikirim ke Owner untuk ditinjau!");
+    globalData.requests.push(newReq);
+    await saveCloudData();
+    alert("Permohonan berhasil dikirim ke Owner secara online!");
+    renderAdminDashboard();
   }
 
-  function renderOwnerDashboard() {
+  async function renderOwnerDashboard() {
+    await fetchCloudData();
     const adminTbody = document.querySelector('#owner-admin-table tbody');
     adminTbody.innerHTML = '';
-    adminAccounts.forEach((acc, idx) => {
+    globalData.admins.forEach((acc, idx) => {
       let tr = document.createElement('tr');
       tr.innerHTML = `
         <td>${acc.username}</td>
@@ -1125,18 +1181,15 @@
       `;
       adminTbody.appendChild(tr);
     });
-    if(adminAccounts.length === 0) {
-      adminTbody.innerHTML = `<tr><td colspan="2" style="text-align:center;">Belum ada akun admin.</td></tr>`;
-    }
 
     const reqTbody = document.querySelector('#owner-requests-table tbody');
     reqTbody.innerHTML = '';
-    document.getElementById('request-count').innerText = deletionRequests.filter(r => r.status === 'Pending').length;
+    document.getElementById('request-count').innerText = globalData.requests.filter(r => r.status === 'Pending').length;
 
-    if (deletionRequests.length === 0) {
+    if (globalData.requests.length === 0) {
       reqTbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Tidak ada permohonan tertunda.</td></tr>`;
     } else {
-      deletionRequests.forEach((req, idx) => {
+      globalData.requests.forEach((req, idx) => {
         let tr = document.createElement('tr');
         let actionHtml = req.status === 'Pending' ? `
           <button class="btn btn-success btn-small" onclick="handleRequest(${idx}, true)">Setujui</button>
@@ -1156,10 +1209,10 @@
     const scoreTbody = document.querySelector('#owner-scores-table tbody');
     scoreTbody.innerHTML = '';
     let hasData = false;
-    for (let student in userScores) {
-      for (let qId in userScores[student]) {
+    for (let student in globalData.scores) {
+      for (let qId in globalData.scores[student]) {
         hasData = true;
-        let scoreObj = userScores[student][qId];
+        let scoreObj = globalData.scores[student][qId];
         let quizTitle = quizzes.find(q => q.id === qId)?.title || qId;
 
         let tr = document.createElement('tr');
@@ -1179,62 +1232,66 @@
     }
   }
 
-  function createAdmin() {
+  async function createAdmin() {
     let u = document.getElementById('new-admin-user').value.trim();
     let p = document.getElementById('new-admin-pass').value.trim();
 
     if (!u || !p) { alert("Isi username dan password admin baru!"); return; }
     if (u === 'owner') { alert("Username 'owner' dilindungi sistem!"); return; }
 
-    if (adminAccounts.some(acc => acc.username === u)) {
+    if (globalData.admins.some(acc => acc.username === u)) {
       alert("Username admin sudah ada!");
       return;
     }
 
-    adminAccounts.push({ username: u, password: p });
-    localStorage.setItem('UjianSumatifAdmins', JSON.stringify(adminAccounts));
+    globalData.admins.push({ username: u, password: p });
+    await saveCloudData();
     document.getElementById('new-admin-user').value = '';
     document.getElementById('new-admin-pass').value = '';
-    alert("Akun admin berhasil dibuat!");
+    alert("Akun admin berhasil dibuat online!");
     renderOwnerDashboard();
   }
 
-  function deleteAdmin(idx) {
-    if(confirm(`Yakin ingin menghapus akun admin "${adminAccounts[idx].username}"?`)) {
-      adminAccounts.splice(idx, 1);
-      localStorage.setItem('UjianSumatifAdmins', JSON.stringify(adminAccounts));
+  async function deleteAdmin(idx) {
+    if(confirm(`Yakin ingin menghapus akun admin "${globalData.admins[idx].username}"?`)) {
+      globalData.admins.splice(idx, 1);
+      await saveCloudData();
       renderOwnerDashboard();
     }
   }
 
-  function handleRequest(idx, isApproved) {
-    let req = deletionRequests[idx];
+  async function handleRequest(idx, isApproved) {
+    let req = globalData.requests[idx];
     if (isApproved) {
-      if (userScores[req.targetUser] && userScores[req.targetUser][req.targetQuiz]) {
-        delete userScores[req.targetUser][req.targetQuiz];
-        if (Object.keys(userScores[req.targetUser]).length === 0) {
-          delete userScores[req.targetUser];
+      if (globalData.scores[req.targetUser] && globalData.scores[req.targetUser][req.targetQuiz]) {
+        delete globalData.scores[req.targetUser][req.targetQuiz];
+        if (Object.keys(globalData.scores[req.targetUser]).length === 0) {
+          delete globalData.scores[req.targetUser];
         }
-        localStorage.setItem('UjianSumatifDB', JSON.stringify(userScores));
       }
       req.status = 'Disetujui ✅';
     } else {
       req.status = 'Ditolak ❌';
     }
-    localStorage.setItem('UjianSumatifRequests', JSON.stringify(deletionRequests));
+    await saveCloudData();
     renderOwnerDashboard();
   }
 
-  function ownerDeleteScore(student, qId) {
+  async function ownerDeleteScore(student, qId) {
     if (confirm(`Owner: Yakin ingin menghapus data nilai ${student} untuk mata pelajaran ${qId}?`)) {
-      delete userScores[student][qId];
-      if (Object.keys(userScores[student]).length === 0) {
-        delete userScores[student];
+      delete globalData.scores[student][qId];
+      if (Object.keys(globalData.scores[student]).length === 0) {
+        delete globalData.scores[student];
       }
-      localStorage.setItem('UjianSumatifDB', JSON.stringify(userScores));
+      await saveCloudData();
       renderOwnerDashboard();
     }
   }
+
+  let activeQuizId = null;
+  let currentAnswersPG = [];
+  let currentAnswersMatch = [];
+  let currentTab = 'pg';
 
   function startQuiz(quizId) {
     activeQuizId = quizId;
@@ -1359,9 +1416,10 @@
     else if (currentTab === 'matching') switchQuizTab('pg');
   }
 
-  function submitQuiz() {
+  async function submitQuiz() {
     if(!confirm("Kumpulkan sekarang? Pastikan PG dan Menjodohkan sudah terisi!")) return;
 
+    await fetchCloudData();
     const quiz = quizzes.find(q => q.id === activeQuizId);
     let scorePG = 0;
     let scoreMatch = 0;
@@ -1376,9 +1434,10 @@
 
     const total = scorePG + scoreMatch;
 
-    if (!userScores[currentUser]) userScores[currentUser] = {};
-    userScores[currentUser][activeQuizId] = { pg: scorePG, match: scoreMatch, total: total };
-    localStorage.setItem('UjianSumatifDB', JSON.stringify(userScores));
+    if (!globalData.scores[currentUser]) globalData.scores[currentUser] = {};
+    globalData.scores[currentUser][activeQuizId] = { pg: scorePG, match: scoreMatch, total: total };
+    
+    await saveCloudData();
 
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
