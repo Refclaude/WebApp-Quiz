@@ -6,7 +6,6 @@
   <title>Portal Ujian Sumatif Kelas 8</title>
   <link rel="icon" href="Miwa.ico" type="image/x-icon">
   <style>
-    /* Variabel Tema Terang & Gelap */
     :root {
       --primary: #4f46e5;
       --primary-hover: #4338ca;
@@ -17,6 +16,7 @@
       --border-color: #d1d5db;
       --success: #10b981;
       --danger: #ef4444;
+      --warning: #f59e0b;
       --option-bg: #f9fafb;
       --shadow: rgba(0, 0, 0, 0.1);
     }
@@ -31,6 +31,7 @@
       --border-color: #374151;
       --success: #059669;
       --danger: #dc2626;
+      --warning: #d97706;
       --option-bg: #111827;
       --shadow: rgba(0, 0, 0, 0.5);
     }
@@ -47,14 +48,13 @@
     }
 
     .container {
-      max-width: 900px;
+      max-width: 950px;
       margin: 0 auto;
       padding: 20px;
       flex: 1;
       width: 100%;
     }
 
-    /* Header */
     header {
       display: flex;
       align-items: center;
@@ -68,7 +68,7 @@
       border: 1px solid var(--border-color);
     }
     header img { width: 55px; height: 55px; border-radius: 10px; object-fit: cover; }
-    header h1 { font-size: 1.6rem; color: var(--primary); text-align: center; }
+    header h1 { font-size: 1.5rem; color: var(--primary); text-align: center; }
 
     .card {
       background: var(--card-bg);
@@ -79,8 +79,7 @@
       border: 1px solid var(--border-color);
     }
 
-    /* Input & Forms */
-    input[type="text"], select, textarea {
+    input[type="text"], input[type="password"], select, textarea {
       width: 100%;
       padding: 12px;
       border-radius: 8px;
@@ -89,11 +88,10 @@
       color: var(--text-main);
       font-size: 1rem;
       margin-top: 8px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
     textarea { height: 90px; resize: vertical; }
 
-    /* Buttons */
     .btn {
       display: inline-block; width: 100%; padding: 14px;
       background: var(--primary); color: #fff; font-weight: bold; font-size: 1rem;
@@ -103,11 +101,21 @@
     .btn:hover { background: var(--primary-hover); }
     .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
     .btn-outline:hover { background: var(--primary); color: #fff; }
-    .btn-small { padding: 6px 12px; font-size: 0.85rem; width: auto; margin-bottom: 5px; border-radius: 6px;}
+    .btn-small { padding: 6px 12px; font-size: 0.85rem; width: auto; border-radius: 6px; }
+    .btn-danger { background: var(--danger); color: white; border: none; }
+    .btn-danger:hover { background: #b91c1c; }
+    .btn-success { background: var(--success); color: white; border: none; }
+    .btn-success:hover { background: #047857; }
 
-    /* Theme Toggle */
+    .role-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+    .role-tab {
+      flex: 1; padding: 10px; background: var(--option-bg); border: 1px solid var(--border-color);
+      border-radius: 8px; font-weight: bold; text-align: center; cursor: pointer; color: var(--text-muted);
+    }
+    .role-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+
     .theme-toggle {
-      display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 25px;
+      display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 20px;
     }
     .switch { position: relative; display: inline-block; width: 54px; height: 28px; }
     .switch input { opacity: 0; width: 0; height: 0; }
@@ -116,7 +124,10 @@
     input:checked + .slider { background-color: var(--primary); }
     input:checked + .slider:before { transform: translateX(26px); }
 
-    /* Dashboard List */
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { border: 1px solid var(--border-color); padding: 10px; text-align: left; font-size: 0.95rem; }
+    th { background: var(--option-bg); }
+
     .quiz-item {
       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
       padding: 15px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 12px;
@@ -128,7 +139,6 @@
     body.dark-mode .done { background: #064e3b; color: #34d399; }
     body.dark-mode .pending { background: #7f1d1d; color: #f87171; }
 
-    /* Quiz Tabs */
     .nav-tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px;}
     .tab-btn {
       flex: 1; padding: 12px; min-width: 120px; background: var(--card-bg); border: 1px solid var(--border-color);
@@ -136,7 +146,6 @@
     }
     .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-    /* Options */
     .option-btn {
       display: block; width: 100%; text-align: left; padding: 12px 15px; margin-bottom: 8px;
       background: var(--option-bg); color: var(--text-main); border: 1px solid var(--border-color);
@@ -145,22 +154,12 @@
     .option-btn:hover { background: var(--border-color); }
     .option-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
 
-    /* Answer Key Box */
     .answer-key-box {
-      margin-top: 10px;
-      padding: 12px;
-      background-color: #dcfce7;
-      border-left: 4px solid var(--success);
-      color: #166534;
-      border-radius: 4px;
-      font-size: 0.95rem;
+      margin-top: 10px; padding: 12px; background-color: #dcfce7;
+      border-left: 4px solid var(--success); color: #166534; border-radius: 4px; font-size: 0.95rem;
     }
-    body.dark-mode .answer-key-box {
-      background-color: #064e3b;
-      color: #a7f3d0;
-    }
+    body.dark-mode .answer-key-box { background-color: #064e3b; color: #a7f3d0; }
 
-    /* Global Footer */
     footer {
       text-align: center; padding: 25px 20px; background: var(--card-bg);
       border-top: 1px solid var(--border-color); margin-top: auto;
@@ -179,9 +178,8 @@
     <h1>Ujian Sumatif Tengah Semester</h1>
   </header>
 
-  <!-- HALAMAN LOGIN -->
   <div id="login-screen" class="card">
-    <h2 style="text-align: center; margin-bottom: 20px;">Selamat Datang!</h2>
+    <h2 style="text-align: center; margin-bottom: 20px;">Portal Masuk</h2>
     
     <div class="theme-toggle">
       <span>☀️ Terang</span>
@@ -192,56 +190,111 @@
       <span>🌙 Gelap</span>
     </div>
 
-    <label for="username" style="font-weight: bold;">Masukkan Nama Anda (Bebas):</label>
-    <input type="text" id="username" placeholder="Contoh: Budi Santoso" autocomplete="off">
-    <button class="btn" onclick="login()">Mulai Ujian</button>
+    <div class="role-tabs">
+      <div class="role-tab active" id="tab-role-student" onclick="switchLoginRole('student')">Siswa</div>
+      <div class="role-tab" id="tab-role-admin" onclick="switchLoginRole('admin')">Admin / Owner</div>
+    </div>
+
+    <div id="form-student">
+      <label for="username" style="font-weight: bold;">Nama Lengkap Siswa:</label>
+      <input type="text" id="username" placeholder="Contoh: Budi Santoso" autocomplete="off">
+      <button class="btn" onclick="loginStudent()">Mulai Ujian</button>
+    </div>
+
+    <div id="form-admin" class="hidden">
+      <label style="font-weight: bold;">Username:</label>
+      <input type="text" id="auth-user" placeholder="Username akun..." autocomplete="off">
+      <label style="font-weight: bold;">Password:</label>
+      <input type="password" id="auth-pass" placeholder="Password akun...">
+      <button class="btn" onclick="loginStaff()">Masuk Dashboard Staff</button>
+    </div>
   </div>
 
-  <!-- HALAMAN DASHBOARD / PILIH KUIS -->
   <div id="dashboard-screen" class="hidden">
     <div class="card">
       <h2 style="margin-bottom: 10px;">Halo, <span id="display-name" style="color: var(--primary);"></span>!</h2>
       <p style="color: var(--text-muted); margin-bottom: 20px;">Pilih mata pelajaran yang ingin kamu kerjakan berdasarkan kisi-kisi Kelas 8.</p>
-      
-      <div id="quiz-list">
-        <!-- Daftar Kuis akan dimuat pakai JavaScript -->
-      </div>
-      
+      <div id="quiz-list"></div>
       <button class="btn btn-outline" style="margin-top: 25px;" onclick="logout()">Keluar / Ganti Akun</button>
     </div>
   </div>
 
-  <!-- HALAMAN KUIS BERLANGSUNG -->
+  <div id="admin-screen" class="hidden">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h2>Dashboard Admin (<span id="admin-name-label"></span>)</h2>
+        <button class="btn btn-outline btn-small" onclick="logout()">Keluar</button>
+      </div>
+      <p style="color: var(--text-muted); margin-bottom: 20px;">Pantau nilai siswa. Untuk menghapus nilai atau data siswa, Anda harus mengajukan permohonan (request) kepada Owner.</p>
+      <h3>Rekapitulasi Nilai Siswa</h3>
+      <div style="overflow-x: auto;">
+        <table id="admin-scores-table">
+          <thead>
+            <tr><th>Nama Siswa</th><th>Mata Pelajaran</th><th>Skor (PG + Match)</th><th>Aksi</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="owner-screen" class="hidden">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h2>Dashboard Owner 👑 (Full Akses)</h2>
+        <button class="btn btn-outline btn-small" onclick="logout()">Keluar</button>
+      </div>
+      <h3 style="margin-top: 15px;">Kelola Akun Admin</h3>
+      <div style="display: flex; gap: 10px; margin-top: 10px;">
+        <input type="text" id="new-admin-user" placeholder="Username Admin baru..." style="margin:0;">
+        <input type="password" id="new-admin-pass" placeholder="Password..." style="margin:0;">
+        <button class="btn btn-success" style="width: auto; padding: 0 20px;" onclick="createAdmin()">Buat Admin</button>
+      </div>
+      <div style="overflow-x: auto; margin-top: 15px;">
+        <table id="owner-admin-table">
+          <thead><tr><th>Username Admin</th><th>Aksi</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <h3 style="margin-top: 30px;">Permintaan Hapus dari Admin (<span id="request-count">0</span>)</h3>
+      <div style="overflow-x: auto; margin-top: 10px;">
+        <table id="owner-requests-table">
+          <thead><tr><th>Pemohon (Admin)</th><th>Jenis Permintaan</th><th>Target Data</th><th>Status / Aksi</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <h3 style="margin-top: 30px;">Data Nilai Seluruh Siswa</h3>
+      <div style="overflow-x: auto; margin-top: 10px;">
+        <table id="owner-scores-table">
+          <thead><tr><th>Nama Siswa</th><th>Mata Pelajaran</th><th>Skor</th><th>Hapus Langsung</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <div id="quiz-screen" class="hidden">
     <h2 id="quiz-title" style="margin-bottom: 20px; color: var(--primary);">Judul Kuis</h2>
-    
     <div class="nav-tabs">
       <button class="tab-btn active" id="tab-pg" onclick="switchQuizTab('pg')">Pilihan Ganda (25)</button>
       <button class="tab-btn" id="tab-matching" onclick="switchQuizTab('matching')">Menjodohkan (10)</button>
       <button class="tab-btn" id="tab-essay" onclick="switchQuizTab('essay')">Uraian (5)</button>
     </div>
-
-    <!-- Area PG -->
     <div id="sec-pg"></div>
-
-    <!-- Area Menjodohkan -->
     <div id="sec-matching" class="hidden">
       <div class="card">
         <h3 style="margin-bottom: 10px;">Soal Menjodohkan</h3>
-        <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-muted);">Pilih pasangan jawaban yang paling tepat dari pilihan yang tersedia. (Masuk dalam perhitungan nilai otomatis)</p>
+        <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-muted);">Pilih pasangan jawaban yang paling tepat dari pilihan yang tersedia.</p>
         <div id="matching-container"></div>
       </div>
     </div>
-
-    <!-- Area Uraian (Dengan Kunci Jawaban) -->
     <div id="sec-essay" class="hidden">
       <div class="card">
         <h3 style="margin-bottom: 10px;">Soal Uraian</h3>
-        <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-muted);">Ketik jawaban Anda, lalu klik "Lihat Kunci Jawaban" untuk mengecek kebenarannya secara mandiri.</p>
+        <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-muted);">Ketik jawaban Anda, lalu klik "Lihat Kunci Jawaban" untuk mengecek kebenarannya.</p>
         <div id="essay-container"></div>
       </div>
     </div>
-
     <div style="display: flex; gap: 10px; margin-top: 20px;">
       <button class="btn btn-outline" id="btn-prev" onclick="prevTab()">&larr; Kembali</button>
       <button class="btn" id="btn-next" onclick="nextTab()">Lanjut &rarr;</button>
@@ -249,30 +302,29 @@
     </div>
   </div>
 
-  <!-- HALAMAN HASIL AKHIR -->
   <div id="result-screen" class="hidden">
     <div class="card" style="text-align: center; padding: 40px 20px;">
       <h2 style="margin-bottom: 15px; font-size: 2rem;">Kuis Selesai! 🎉</h2>
       <p style="color: var(--text-muted); margin-bottom: 20px;">Berikut adalah nilai otomatis dari soal Pilihan Ganda dan Menjodohkan.</p>
-      
       <div style="font-size: 5rem; font-weight: bold; color: var(--primary); margin-bottom: 10px;" id="final-score">0/35</div>
       <p style="margin-bottom: 30px; font-size: 1.1rem;">
         Skor Pilihan Ganda: <strong id="score-pg">0</strong>/25 <br>
         Skor Menjodohkan: <strong id="score-match">0</strong>/10
       </p>
-
-      <button class="btn" onclick="backToDashboard()">Kembali ke Web Utama (Daftar Kuis)</button>
+      <button class="btn" onclick="backToDashboard()">Kembali ke Daftar Kuis</button>
     </div>
   </div>
-
 </div>
 
-<!-- Global Footer -->
 <footer>
   <a href="https://wa.me/6283830979228?text=ada+bug+oy" target="_blank">Click Here To Report Bug</a>
 </footer>
 
 <script>
+  // ==========================================
+  // DI BAWAH INI ADALAH TEMPAT VARIABEL SOAL ANDA
+  // ==========================================
+
 /* =========================================================================
      DATA KUIS LENGKAP (UTUH TANPA GENERATE / POTONGAN)
      ========================================================================= */
@@ -829,34 +881,55 @@
     }
   ];
 
-  /* =========================================================================
-     SISTEM STATE & LOGIKA APLIKASI
-     ========================================================================= */
+    // ==========================================
+  // BATAS AKHIR VARIABEL SOAL
+  // ==========================================
+
   let currentUser = '';
-  let userScores = {}; // Penyimpanan nilai (localStorage)
+  let currentRole = 'student';
+  let userScores = {}; 
+  let adminAccounts = [];
+  let deletionRequests = [];
   let activeQuizId = null;
   let currentAnswersPG = [];
   let currentAnswersMatch = [];
   let currentTab = 'pg';
 
-  // Inisialisasi saat web dimuat
   window.onload = () => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
       document.body.classList.add('dark-mode');
       document.getElementById('theme-switch').checked = true;
     }
+
     const savedDB = localStorage.getItem('UjianSumatifDB');
     if (savedDB) userScores = JSON.parse(savedDB);
 
+    const savedAdmins = localStorage.getItem('UjianSumatifAdmins');
+    if (savedAdmins) {
+      adminAccounts = JSON.parse(savedAdmins);
+    } else {
+      adminAccounts = [{ username: 'admin1', password: '123' }];
+      localStorage.setItem('UjianSumatifAdmins', JSON.stringify(adminAccounts));
+    }
+
+    const savedReqs = localStorage.getItem('UjianSumatifRequests');
+    if (savedReqs) deletionRequests = JSON.parse(savedReqs);
+
     const sessionUser = sessionStorage.getItem('currentUser');
-    if (sessionUser) {
-      document.getElementById('username').value = sessionUser;
-      login();
+    const sessionRole = sessionStorage.getItem('currentRole');
+    if (sessionUser && sessionRole) {
+      currentUser = sessionUser;
+      currentRole = sessionRole;
+      if (sessionRole === 'student') {
+        document.getElementById('username').value = sessionUser;
+        loginStudent();
+      } else {
+        resumeStaffSession(sessionUser, sessionRole);
+      }
     }
   };
 
-  // Toggle Tema
   function toggleTheme() {
     if (document.getElementById('theme-switch').checked) {
       document.body.classList.add('dark-mode');
@@ -867,14 +940,28 @@
     }
   }
 
-  // Fungsi Login
-  function login() {
+  function switchLoginRole(role) {
+    currentRole = role;
+    document.querySelectorAll('.role-tab').forEach(el => el.classList.remove('active'));
+    if (role === 'student') {
+      document.getElementById('tab-role-student').classList.add('active');
+      document.getElementById('form-student').classList.remove('hidden');
+      document.getElementById('form-admin').classList.add('hidden');
+    } else {
+      document.getElementById('tab-role-admin').classList.add('active');
+      document.getElementById('form-student').classList.add('hidden');
+      document.getElementById('form-admin').classList.remove('hidden');
+    }
+  }
+
+  function loginStudent() {
     let nameInput = document.getElementById('username').value.trim();
     if (!nameInput) { alert("Harap masukkan nama Anda!"); return; }
     
-    // Simpan nama (non-case sensitive logic)
     currentUser = nameInput.toLowerCase();
+    currentRole = 'student';
     sessionStorage.setItem('currentUser', nameInput);
+    sessionStorage.setItem('currentRole', 'student');
     
     if (!userScores[currentUser]) userScores[currentUser] = {};
 
@@ -884,12 +971,70 @@
     renderDashboard();
   }
 
+  function loginStaff() {
+    let u = document.getElementById('auth-user').value.trim();
+    let p = document.getElementById('auth-pass').value.trim();
+
+    if (!u || !p) { alert("Harap isi username dan password!"); return; }
+
+    if (u === 'owner' && p === 'owner123') {
+      setupStaffSession('Owner Master', 'owner');
+      return;
+    }
+
+    let foundAdmin = adminAccounts.find(acc => acc.username === u && acc.password === p);
+    if (foundAdmin) {
+      setupStaffSession(foundAdmin.username, 'admin');
+      return;
+    }
+
+    alert("Username atau password salah!");
+  }
+
+  function setupStaffSession(name, role) {
+    currentUser = name;
+    currentRole = role;
+    sessionStorage.setItem('currentUser', name);
+    sessionStorage.setItem('currentRole', role);
+
+    document.getElementById('login-screen').classList.add('hidden');
+    if (role === 'owner') {
+      document.getElementById('owner-screen').classList.remove('hidden');
+      renderOwnerDashboard();
+    } else {
+      document.getElementById('admin-name-label').innerText = name;
+      document.getElementById('admin-screen').classList.remove('hidden');
+      renderAdminDashboard();
+    }
+  }
+
+  function resumeStaffSession(name, role) {
+    document.getElementById('login-screen').classList.add('hidden');
+    if (role === 'owner') {
+      document.getElementById('owner-screen').classList.remove('hidden');
+      renderOwnerDashboard();
+    } else {
+      document.getElementById('admin-name-label').innerText = name;
+      document.getElementById('admin-screen').classList.remove('hidden');
+      renderAdminDashboard();
+    }
+  }
+
   function logout() {
-    sessionStorage.removeItem('currentUser');
+    sessionStorage.clear();
     currentUser = '';
+    currentRole = 'student';
     document.getElementById('username').value = '';
+    document.getElementById('auth-user').value = '';
+    document.getElementById('auth-pass').value = '';
+    
     document.getElementById('dashboard-screen').classList.add('hidden');
+    document.getElementById('admin-screen').classList.add('hidden');
+    document.getElementById('owner-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('result-screen').classList.add('hidden');
     document.getElementById('login-screen').classList.remove('hidden');
+    switchLoginRole('student');
   }
 
   function renderDashboard() {
@@ -897,7 +1042,7 @@
     list.innerHTML = '';
 
     quizzes.forEach(quiz => {
-      const record = userScores[currentUser][quiz.id];
+      const record = userScores[currentUser] ? userScores[currentUser][quiz.id] : undefined;
       const isDone = record !== undefined;
       
       const item = document.createElement('div');
@@ -920,12 +1065,183 @@
     });
   }
 
+  function renderAdminDashboard() {
+    const tbody = document.querySelector('#admin-scores-table tbody');
+    tbody.innerHTML = '';
+
+    let hasData = false;
+    for (let student in userScores) {
+      for (let qId in userScores[student]) {
+        hasData = true;
+        let scoreObj = userScores[student][qId];
+        let quizTitle = quizzes.find(q => q.id === qId)?.title || qId;
+
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${student}</td>
+          <td>${quizTitle}</td>
+          <td><b>${scoreObj.total}</b> / 35</td>
+          <td>
+            <button class="btn btn-danger btn-small" onclick="requestDeleteScore('${student}', '${qId}')">Minta Hapus Nilai</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      }
+    }
+    if (!hasData) {
+      tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Belum ada data nilai siswa.</td></tr>`;
+    }
+  }
+
+  function requestDeleteScore(student, qId) {
+    let reason = prompt(`Ajukan permohonan hapus nilai ${student} (${qId}) ke Owner. Masukkan alasan:`);
+    if (!reason) return;
+
+    let newReq = {
+      id: Date.now(),
+      adminName: currentUser,
+      type: 'Hapus Nilai',
+      targetUser: student,
+      targetQuiz: qId,
+      reason: reason,
+      status: 'Pending'
+    };
+
+    deletionRequests.push(newReq);
+    localStorage.setItem('UjianSumatifRequests', JSON.stringify(deletionRequests));
+    alert("Permohonan berhasil dikirim ke Owner untuk ditinjau!");
+  }
+
+  function renderOwnerDashboard() {
+    const adminTbody = document.querySelector('#owner-admin-table tbody');
+    adminTbody.innerHTML = '';
+    adminAccounts.forEach((acc, idx) => {
+      let tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${acc.username}</td>
+        <td>
+          <button class="btn btn-danger btn-small" onclick="deleteAdmin(${idx})">Hapus Admin</button>
+        </td>
+      `;
+      adminTbody.appendChild(tr);
+    });
+    if(adminAccounts.length === 0) {
+      adminTbody.innerHTML = `<tr><td colspan="2" style="text-align:center;">Belum ada akun admin.</td></tr>`;
+    }
+
+    const reqTbody = document.querySelector('#owner-requests-table tbody');
+    reqTbody.innerHTML = '';
+    document.getElementById('request-count').innerText = deletionRequests.filter(r => r.status === 'Pending').length;
+
+    if (deletionRequests.length === 0) {
+      reqTbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Tidak ada permohonan tertunda.</td></tr>`;
+    } else {
+      deletionRequests.forEach((req, idx) => {
+        let tr = document.createElement('tr');
+        let actionHtml = req.status === 'Pending' ? `
+          <button class="btn btn-success btn-small" onclick="handleRequest(${idx}, true)">Setujui</button>
+          <button class="btn btn-danger btn-small" onclick="handleRequest(${idx}, false)">Tolak</button>
+        ` : `<b>${req.status}</b>`;
+
+        tr.innerHTML = `
+          <td>${req.adminName}</td>
+          <td>${req.type}</td>
+          <td>Siswa: <b>${req.targetUser}</b> (${req.targetQuiz})<br><small>Alasan: ${req.reason}</small></td>
+          <td>${actionHtml}</td>
+        `;
+        reqTbody.appendChild(tr);
+      });
+    }
+
+    const scoreTbody = document.querySelector('#owner-scores-table tbody');
+    scoreTbody.innerHTML = '';
+    let hasData = false;
+    for (let student in userScores) {
+      for (let qId in userScores[student]) {
+        hasData = true;
+        let scoreObj = userScores[student][qId];
+        let quizTitle = quizzes.find(q => q.id === qId)?.title || qId;
+
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${student}</td>
+          <td>${quizTitle}</td>
+          <td><b>${scoreObj.total}</b> / 35</td>
+          <td>
+            <button class="btn btn-danger btn-small" onclick="ownerDeleteScore('${student}', '${qId}')">Hapus Langsung</button>
+          </td>
+        `;
+        scoreTbody.appendChild(tr);
+      }
+    }
+    if (!hasData) {
+      scoreTbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Belum ada data nilai siswa.</td></tr>`;
+    }
+  }
+
+  function createAdmin() {
+    let u = document.getElementById('new-admin-user').value.trim();
+    let p = document.getElementById('new-admin-pass').value.trim();
+
+    if (!u || !p) { alert("Isi username dan password admin baru!"); return; }
+    if (u === 'owner') { alert("Username 'owner' dilindungi sistem!"); return; }
+
+    if (adminAccounts.some(acc => acc.username === u)) {
+      alert("Username admin sudah ada!");
+      return;
+    }
+
+    adminAccounts.push({ username: u, password: p });
+    localStorage.setItem('UjianSumatifAdmins', JSON.stringify(adminAccounts));
+    document.getElementById('new-admin-user').value = '';
+    document.getElementById('new-admin-pass').value = '';
+    alert("Akun admin berhasil dibuat!");
+    renderOwnerDashboard();
+  }
+
+  function deleteAdmin(idx) {
+    if(confirm(`Yakin ingin menghapus akun admin "${adminAccounts[idx].username}"?`)) {
+      adminAccounts.splice(idx, 1);
+      localStorage.setItem('UjianSumatifAdmins', JSON.stringify(adminAccounts));
+      renderOwnerDashboard();
+    }
+  }
+
+  function handleRequest(idx, isApproved) {
+    let req = deletionRequests[idx];
+    if (isApproved) {
+      if (userScores[req.targetUser] && userScores[req.targetUser][req.targetQuiz]) {
+        delete userScores[req.targetUser][req.targetQuiz];
+        if (Object.keys(userScores[req.targetUser]).length === 0) {
+          delete userScores[req.targetUser];
+        }
+        localStorage.setItem('UjianSumatifDB', JSON.stringify(userScores));
+      }
+      req.status = 'Disetujui ✅';
+    } else {
+      req.status = 'Ditolak ❌';
+    }
+    localStorage.setItem('UjianSumatifRequests', JSON.stringify(deletionRequests));
+    renderOwnerDashboard();
+  }
+
+  function ownerDeleteScore(student, qId) {
+    if (confirm(`Owner: Yakin ingin menghapus data nilai ${student} untuk mata pelajaran ${qId}?`)) {
+      delete userScores[student][qId];
+      if (Object.keys(userScores[student]).length === 0) {
+        delete userScores[student];
+      }
+      localStorage.setItem('UjianSumatifDB', JSON.stringify(userScores));
+      renderOwnerDashboard();
+    }
+  }
+
   function startQuiz(quizId) {
     activeQuizId = quizId;
     const quiz = quizzes.find(q => q.id === quizId);
     
-    currentAnswersPG = new Array(25).fill(null);
-    currentAnswersMatch = new Array(10).fill('');
+    currentAnswersPG = new Array(quiz.pg.length).fill(null);
+    currentAnswersMatch = new Array(quiz.matching.length).fill('');
 
     document.getElementById('dashboard-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
@@ -955,7 +1271,8 @@
 
   function selectPG(qIdx, optIdx) {
     currentAnswersPG[qIdx] = optIdx;
-    for(let i=0; i<4; i++) {
+    const quiz = quizzes.find(q => q.id === activeQuizId);
+    for(let i=0; i < quiz.pg[qIdx].options.length; i++) {
       let btn = document.getElementById(`btn-pg-${qIdx}-${i}`);
       if(btn) btn.classList.remove('selected');
     }
@@ -965,8 +1282,6 @@
   function renderMatching(quiz) {
     const container = document.getElementById('matching-container');
     container.innerHTML = '';
-    
-    // Acak dropdown jawaban
     const allMatches = quiz.matching.map(m => m.match).sort(() => Math.random() - 0.5);
 
     quiz.matching.forEach((item, idx) => {
@@ -990,11 +1305,9 @@
   function renderEssay(quiz) {
     const container = document.getElementById('essay-container');
     container.innerHTML = '';
-    
     quiz.essay.forEach((item, idx) => {
       const div = document.createElement('div');
       div.style.marginBottom = '25px';
-      
       div.innerHTML = `
         <div style="font-weight: bold; margin-bottom: 8px;">${item.q}</div>
         <textarea placeholder="Ketik jawaban uraian Anda di sini..."></textarea>
@@ -1009,11 +1322,7 @@
 
   function toggleAnswerKey(idx) {
     const keyBox = document.getElementById(`essay-key-${idx}`);
-    if (keyBox.classList.contains('hidden')) {
-      keyBox.classList.remove('hidden');
-    } else {
-      keyBox.classList.add('hidden');
-    }
+    keyBox.classList.toggle('hidden');
   }
 
   function switchQuizTab(tabId) {
@@ -1067,11 +1376,10 @@
 
     const total = scorePG + scoreMatch;
 
-    // Simpan nilai ke localStorage
+    if (!userScores[currentUser]) userScores[currentUser] = {};
     userScores[currentUser][activeQuizId] = { pg: scorePG, match: scoreMatch, total: total };
     localStorage.setItem('UjianSumatifDB', JSON.stringify(userScores));
 
-    // Menampilkan layar hasil
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
     
